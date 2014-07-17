@@ -48,60 +48,74 @@
       };
 
     // Interactions
-    var id,
-        active = false,
-        frame,
-        animationCount,
+    var $id,
+        $active = false,
+        $frame,
+        $animationCount,
         rotation,
-        rotationBack,
+        rotateRight,
+        rotateLeft,
         rotateHome;
 
-    rotation = function () {
-        animationCount += 1;
-        frame.rotate({
-          animateTo:5,
+    rotation = function(direction){
+      $animationCount += 1;
+      var configObject = {
           duration: 100,
-          center: ["65%","50%"],
-          callback: function () { if (animationCount < 4){rotationBack()}}
-        });
+          center: ["65%", "50%"]
+      }
+
+      if (direction === 'right'){
+        configObject.animateTo = 5;
+        configObject.callback = function () {
+          if ($animationCount < 4) {
+            rotateLeft();
+          }
+        }
+      } else if ( direction === 'left') {
+        configObject.animateTo = -5;
+        configObject.callback = function () {
+          if ($animationCount < 4) {
+            rotateRight()
+          } else {
+            return rotateHome()
+          }
+        }
+      } else if ( direction === 'home') {
+        configObject.animateTo = 0;
+        $active = false;
+      }
+      $frame.rotate(configObject);
+    }
+
+    rotateRight = function () {
+      rotation('right');
     };
 
-    rotationBack = function () {
-        animationCount += 1;
-        frame.rotate({
-          animateTo: -5,
-          duration: 100,
-          center: ["65%","50%"],
-          callback: function () { if (animationCount < 4){rotation()} else {return rotateHome()}}
-        });
+    rotateLeft = function () {
+      rotation('left');
     };
 
     rotateHome = function () {
-        frame.stopRotate();
-        frame.rotate({
-          angle:0,
-          duration: 100,
-          center: ["65%","50%"]
-        });
-       active = false;
+        $frame.stopRotate();
+        rotation('home');
     };
 
     // Attach mouseover event
     this.on('mouseover', 'img', function() {
-      if (active){
+      if ($active){
         return;
       } else {
-        active = true;
-        frame = $(this).closest('div');
+        $active = true;
+        $frame = $(this).closest('div');
         // Switch the quotes
-        id = $(this).data("info");
-        $person = famousPeople["person" + id];
+        $id = $(this).data("info");
+        $person = famousPeople["person" + $id];
         $(this).parent('a').siblings('.quoteholder').find('span').fadeOut(1).text($person.quotes[0]).fadeIn(500);
         quoteCycle($person);
 
         // Call rotation functions
-        animationCount = 0;
-        rotation();
+        $animationCount = 0;
+        rotation('right');
       }
     });
 
