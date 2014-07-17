@@ -13,25 +13,25 @@
     }, options);
 
     // Get basics about sprite image
-    var width = settings.width,
-        height = settings.height,
-        totalWidth = width * settings.number,
-        startingPoints = [],
-        firstQuote = [],
+    var $width = settings.width,
+        $height = settings.height,
+        $totalWidth = $width * settings.number,
+        $startingPoints = [],
+        $firstQuote = [],
         quoteCycle = null,
         i = 0;
 
     // Now find the sprite starting points
-    for (i = 0; i < totalWidth; i += width){
-      startingPoints.push(i);
+    for (i = 0; i < $totalWidth; i += $width){
+      $startingPoints.push(i);
     }
 
     // Create famous people objects to store quotes and info
     var people = [];
     var famousPeople = {};
-    for (i = 1; i <= startingPoints.length; i++){
+    for (i = 1; i <= $startingPoints.length; i++){
         famousPeople['person' + i] = {
-        location : startingPoints[i-1],
+        location : $startingPoints[i-1],
         quotes   : settings.quotes[i-1],
         links    : settings.links[i-1],
         id       : i
@@ -43,8 +43,8 @@
 
     // Quote cycle
       quoteCycle = function(person){
-        firstQuote = person.quotes.shift();
-        person.quotes.push(firstQuote);
+        $firstQuote = person.quotes.shift();
+        person.quotes.push($firstQuote);
       };
 
     // Interactions
@@ -146,7 +146,7 @@
           css: {
             position: "absolute",
             left: -$person.location,
-            "min-width": totalWidth
+            "min-width": $totalWidth
           }
         });
 
@@ -172,8 +172,8 @@
         wrapper = $('<div>', {
           "class" : "famous-person",
           css:{
-            width : width,
-            height : height,
+            width : $width,
+            height : $height,
             overflow : "hidden",
             position : "relative"
           }
