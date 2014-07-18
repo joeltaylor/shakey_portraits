@@ -77,27 +77,33 @@
           if ($animationCount < 4) {
             rotateRight()
           } else {
-            return rotateHome()
+            return rotateHome();
           }
         }
-      } else if ( direction === 'home') {
+      } else {
+        $frame.stopRotate();
         configObject.animateTo = 0;
+        configObject.angle = 0;
         $active = false;
       }
       $frame.rotate(configObject);
     }
 
     rotateRight = function () {
+
       rotation('right');
+      console.log("right" + $animationCount);
     };
 
     rotateLeft = function () {
+
       rotation('left');
+      console.log("left" +  $animationCount);
     };
 
     rotateHome = function () {
-        $frame.stopRotate();
         rotation('home');
+        console.log("home" + $animationCount);
     };
 
     // Attach mouseover event
@@ -115,7 +121,9 @@
 
         // Call rotation functions
         $animationCount = 0;
+        console.log('First right');
         rotation('right');
+
       }
     });
 
