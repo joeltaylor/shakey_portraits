@@ -29,11 +29,11 @@
     // Create famous people objects to store quotes and info
     var people = [];
     var famousPeople = {};
-    for (i = 1; i <= startingPoints.length; i++){
+    for (i = 0; i < startingPoints.length; i++){
         famousPeople['person' + i] = {
-        location : startingPoints[i-1],
-        quotes   : settings.quotes[i-1],
-        links    : settings.links[i-1],
+        location : startingPoints[i],
+        quotes   : settings.quotes[i],
+        links    : settings.links[i],
         id       : i
       };
       people.push(famousPeople['person' + i]);
@@ -75,7 +75,7 @@
         configObject.animateTo = -5;
         configObject.callback = function () {
           if (animationCount < 4) {
-            rotateRight()
+            rotateRight();
           } else {
             return rotateHome();
           }
@@ -154,7 +154,6 @@
             "min-width": totalWidth
           }
         });
-
 
         $quote = $('<span>', {
           "class" : "quote",
