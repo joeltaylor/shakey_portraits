@@ -13,25 +13,25 @@
     }, options);
 
     // Get basics about sprite image
-    var $width = settings.width,
-        $height = settings.height,
-        $totalWidth = $width * settings.number,
-        $startingPoints = [],
-        $firstQuote = [],
+    var width = settings.width,
+        height = settings.height,
+        totalWidth = width * settings.number,
+        startingPoints = [],
+        firstQuote = [],
         quoteCycle = null,
         i = 0;
 
     // Now find the sprite starting points
-    for (i = 0; i < $totalWidth; i += $width){
-      $startingPoints.push(i);
+    for (i = 0; i < totalWidth; i += width){
+      startingPoints.push(i);
     }
 
     // Create famous people objects to store quotes and info
     var people = [];
     var famousPeople = {};
-    for (i = 1; i <= $startingPoints.length; i++){
+    for (i = 1; i <= startingPoints.length; i++){
         famousPeople['person' + i] = {
-        location : $startingPoints[i-1],
+        location : startingPoints[i-1],
         quotes   : settings.quotes[i-1],
         links    : settings.links[i-1],
         id       : i
@@ -43,22 +43,22 @@
 
     // Quote cycle
       quoteCycle = function(person){
-        $firstQuote = person.quotes.shift();
-        person.quotes.push($firstQuote);
+        firstQuote = person.quotes.shift();
+        person.quotes.push(firstQuote);
       };
 
     // Interactions
-    var $id,
-        $active = false,
+    var id,
+        active = false,
         $frame,
-        $animationCount,
+        animationCount,
         rotation,
         rotateRight,
         rotateLeft,
         rotateHome;
 
     rotation = function(direction){
-      $animationCount += 1;
+      animationCount += 1;
       var configObject = {
           duration: 100,
           center: ["65%", "50%"]
@@ -67,14 +67,14 @@
       if (direction === 'right'){
         configObject.animateTo = 5;
         configObject.callback = function () {
-          if ($animationCount < 4) {
+          if (animationCount < 4) {
             rotateLeft();
           }
         }
       } else if ( direction === 'left') {
         configObject.animateTo = -5;
         configObject.callback = function () {
-          if ($animationCount < 4) {
+          if (animationCount < 4) {
             rotateRight()
           } else {
             return rotateHome();
@@ -84,7 +84,7 @@
         $frame.stopRotate();
         configObject.animateTo = 0;
         configObject.angle = 0;
-        $active = false;
+        active = false;
       }
       $frame.rotate(configObject);
     }
@@ -104,20 +104,20 @@
     };
 
     // Attach mouseover event
-    this.on('mouseover', 'img', function() {
-      if ($active){
+    this.on('mouseover', '.portrait', function() {
+      if (active){
         return;
       } else {
-        $active = true;
+        active = true;
         $frame = $(this).closest('div');
         // Switch the quotes
-        $id = $(this).data("info");
-        $person = famousPeople["person" + $id];
-        $(this).parent('a').siblings('.quoteholder').find('span').fadeOut(1).text($person.quotes[0]).fadeIn(500);
-        quoteCycle($person);
+        id = $(this).data("info");
+        person = famousPeople["person" + id];
+        $(this).parent('a').siblings('.quoteholder').find('span').fadeOut(1).text(person.quotes[0]).fadeIn(500);
+        quoteCycle(person);
 
         // Call rotation functions
-        $animationCount = 0;
+        animationCount = 0;
         rotation('right');
 
       }
@@ -125,7 +125,7 @@
 
 
     return this.each( function(element) {
-      var $person,
+      var person,
           $image,
           $quote,
           $wrapper,
@@ -136,28 +136,29 @@
       // Place the images and give initial quote
       for (var i = 0; i < settings.show; i++) {
 
-        $person = people.pop();
+        person = people.pop();
         $link = $('<a>',{
-          href: $person.links,
+          href: person.links,
           "class" : "fp_link"
         })
 
         $image = $('<img>',{
           src: settings.source,
           attr: {
-            "data-info": $person.id
+            "data-info": person.id
           },
+          "class" : "portrait",
           css: {
             position: "absolute",
-            left: -$person.location,
-            "min-width": $totalWidth
+            left: -person.location,
+            "min-width": totalWidth
           }
         });
 
 
         $quote = $('<span>', {
           "class" : "quote",
-          text : $person.quotes[0]
+          text : person.quotes[0]
         });
 
         // Because firefox is being fickle
@@ -170,14 +171,14 @@
         });
 
         // Cycle the quote
-        quoteCycle($person);
+        quoteCycle(person);
 
 
         $wrapper = $('<div>', {
           "class" : "famous-person",
           css:{
-            width : $width,
-            height : $height,
+            width : width,
+            height : height,
             overflow : "hidden",
             position : "relative"
           }
