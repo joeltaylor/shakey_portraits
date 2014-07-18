@@ -137,7 +137,7 @@
       for (var i = 0; i < settings.show; i++) {
 
         $person = people.pop();
-        link = $('<a>',{
+        $link = $('<a>',{
           href: $person.links,
           "class" : "fp_link"
         })
