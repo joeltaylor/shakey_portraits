@@ -140,7 +140,7 @@
         $link = $('<a>',{
           href: person.links,
           "class" : "fp_link"
-        })
+        });
 
         $image = $('<img>',{
           src: settings.source,
