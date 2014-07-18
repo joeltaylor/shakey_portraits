@@ -92,18 +92,15 @@
     rotateRight = function () {
 
       rotation('right');
-      console.log("right" + $animationCount);
     };
 
     rotateLeft = function () {
 
       rotation('left');
-      console.log("left" +  $animationCount);
     };
 
     rotateHome = function () {
         rotation('home');
-        console.log("home" + $animationCount);
     };
 
     // Attach mouseover event
