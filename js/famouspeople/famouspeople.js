@@ -118,7 +118,6 @@
 
         // Call rotation functions
         $animationCount = 0;
-        console.log('First right');
         rotation('right');
 
       }
@@ -127,11 +126,11 @@
 
     return this.each( function(element) {
       var $person,
-          image,
-          quote,
-          wrapper,
-          link,
-          quoteholder;
+          $image,
+          $quote,
+          $wrapper,
+          $link,
+          $quoteholder;
 
 
       // Place the images and give initial quote
@@ -143,7 +142,7 @@
           "class" : "fp_link"
         })
 
-        image = $('<img>',{
+        $image = $('<img>',{
           src: settings.source,
           attr: {
             "data-info": $person.id
@@ -156,13 +155,13 @@
         });
 
 
-        quote = $('<span>', {
+        $quote = $('<span>', {
           "class" : "quote",
           text : $person.quotes[0]
         });
 
         // Because firefox is being fickle
-        quoteholder = $('<div>',{
+        $quoteholder = $('<div>',{
           "class" : "quoteholder",
           css: {
             display: "table",
@@ -174,7 +173,7 @@
         quoteCycle($person);
 
 
-        wrapper = $('<div>', {
+        $wrapper = $('<div>', {
           "class" : "famous-person",
           css:{
             width : $width,
@@ -182,12 +181,12 @@
             overflow : "hidden",
             position : "relative"
           }
-        }).append(image).append(quote);
+        }).append($image).append($quote);
 
-        image.wrap(link);
-        quote.wrap(quoteholder);
+        $image.wrap($link);
+        $quote.wrap($quoteholder);
 
-        $(this).append(wrapper);
+        $(this).append($wrapper);
       };
     });
   };
