@@ -1,13 +1,15 @@
 .famous-person{
   margin: 50px;
   overflow: hidden;
-
-}
-.famous-person img{
+  position: relative;
   z-index: 1;
 }
+.famous-person img{
+  z-index: -1;
+
+}
+
 .quote{
-  z-index: 9999;
   position: relative;
   top: 0px;
   width: 221px;
@@ -18,6 +20,19 @@
 }
 
 .quoteholder{
+  height: 100%;
   width: 200px;
   padding-left: 18px;
+  display: table;
+}
+
+/* IE 7/8 fixes */
+html.lt-ie8 .quoteholder{
+    top: 195px;
+    position: absolute;
+}
+
+html.lt-ie9 img.portrait,
+html.lt-ie8 img.portrait{
+  background: #fff;
 }

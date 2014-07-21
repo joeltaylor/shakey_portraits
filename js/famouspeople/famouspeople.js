@@ -52,55 +52,22 @@
         active = false,
         $frame,
         animationCount,
-        rotation,
-        rotateRight,
-        rotateLeft,
-        rotateHome;
+        rotation;
 
+    $.fx.speeds._default = 100;
     rotation = function(direction){
       animationCount += 1;
-      var configObject = {
-          duration: 100,
-          center: ["65%", "50%"]
-      }
-
       if (direction === 'right'){
-        configObject.animateTo = 5;
-        configObject.callback = function () {
-          if (animationCount < 4) {
-            rotateLeft();
-          }
-        }
-      } else if ( direction === 'left') {
-        configObject.animateTo = -5;
-        configObject.callback = function () {
-          if (animationCount < 4) {
-            rotateRight();
-          } else {
-            return rotateHome();
-          }
-        }
-      } else {
-        $frame.stopRotate();
-        configObject.animateTo = 0;
-        configObject.angle = 0;
-        active = false;
+        $frame.animate({transform: 'rotate(5deg)'}, function(){rotation('left');});
       }
-      $frame.rotate(configObject);
-    }
-
-    rotateRight = function () {
-
-      rotation('right');
-    };
-
-    rotateLeft = function () {
-
-      rotation('left');
-    };
-
-    rotateHome = function () {
-        rotation('home');
+      else if (direction === 'left') {
+          if (animationCount < 4) {
+            $frame.animate({transform: 'rotate(-5deg)'}, function(){rotation('right');});
+          }
+          else {
+            $frame.animate({transform: 'rotate(0deg)'}, function(){active=false;});
+          }
+      }
     };
 
     // Attach mouseover event
@@ -109,10 +76,10 @@
         return;
       } else {
         active = true;
+         id = $(this).data("info");
+        person = famousPeople["person" + id];
         $frame = $(this).closest('div');
         // Switch the quotes
-        id = $(this).data("info");
-        person = famousPeople["person" + id];
         $(this).parent('a').siblings('.quoteholder').find('span').fadeOut(1).text(person.quotes[0]).fadeIn(500);
         quoteCycle(person);
 
@@ -192,6 +159,7 @@
   };
 
 })(jQuery);
+
 $(document).ready(function(){
   jQuery("#sidebar").famousPeople({
     number : 5,
